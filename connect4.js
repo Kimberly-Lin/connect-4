@@ -19,9 +19,9 @@ let board = []; // array of rows, each row is array of cells  (board[y][x])
 
 function makeBoard() {
   // TODO: set "board" to empty HEIGHT x WIDTH matrix array
-  for (let y=0; y<HEIGHT; y++){
-    let row=[];
-    for (let x=0; x<WIDTH; x++){
+  for (let y = 0; y < HEIGHT; y++) {
+    let row = [];
+    for (let x = 0; x < WIDTH; x++) {
       row.push(null);
     }
     board.push(row);
@@ -31,46 +31,40 @@ function makeBoard() {
 /** makeHtmlBoard: make HTML table and row of column tops. */
 
 function makeHtmlBoard() {
-  // TODO: get "htmlBoard" variable from the item in HTML w/ID of "board"
+  // get "htmlBoard" variable from the item in HTML w/ID of "board"
 
   let htmlBoard = document.getElementById("board");
 
-  // TODO: create new row on top and call it 'top'. add click listener and assign ID of column-top
+  // Create special row to accept player click input
 
   let top = document.createElement("tr");
   top.setAttribute("id", "column-top");
   top.addEventListener("click", handleClick);
 
-  // TODO: loop WIDTH number of times to create cells for top row, assign ID of their column number, append to top. 
-
+  // loop WIDTH number of times to create cells for top row, assign ID 
+  // of their column number, append to top. 
 
   for (let x = 0; x < WIDTH; x++) {
-    var headCell = document.createElement("td");
+    const headCell = document.createElement("td");
     headCell.setAttribute("id", x);
     top.append(headCell);
   }
 
-  //append top to htmlboard
   htmlBoard.append(top);
 
   // dynamically creates the main part of html board
   // uses HEIGHT to create table rows
   // uses WIDTH to create table cells for each row
   for (let y = 0; y < HEIGHT; y++) {
-    // TODO: Create a table row element and assign to a "row" variable
+    //Create a table row element and assign to a "row" variable
     let row = document.createElement("tr");
     for (let x = 0; x < WIDTH; x++) {
-      // TODO: Create a table cell element and assign to a "cell" variable
+      //Create a table cell element and assign to a "cell" variable
       let cell = document.createElement("td");
-      // TODO: add an id, y-x, to the above table cell element
-      cell.setAttribute("id",`${y}-${x}`);
-
-      // you'll use this later, so make sure you use y-x
-
-      // TODO: append the table cell to the table row
+      cell.setAttribute("id", `${y}-${x}`);
+      //you'll use this later, so make sure you use y-x
       row.append(cell);
     }
-    // TODO: append the row to the html board
     htmlBoard.append(row)
   }
 }
@@ -79,13 +73,21 @@ function makeHtmlBoard() {
 
 function findSpotForCol(x) {
   // TODO: write the real version of this, rather than always returning 0
-  return 0;
+  for (let y=HEIGHT; y>=0; y--){
+    if (board[x][y]===null){
+      return y;
+    }
+  }
+  return null;
 }
 
 /** placeInTable: update DOM to place piece into HTML table of board */
 
 function placeInTable(y, x) {
   // TODO: make a div and insert into correct table cell
+  let piece = document.createElement("div");
+  piece.setAttribute("class", "piece");
+  document.getElementById(`${y}-${x}`).append(piece);
 }
 
 /** endGame: announce game end */
