@@ -73,8 +73,8 @@ function makeHtmlBoard() {
 
 function findSpotForCol(x) {
   // TODO: write the real version of this, rather than always returning 0
-  for (let y=HEIGHT; y>=0; y--){
-    if (board[x][y]===null){
+  for (let y = HEIGHT - 1; y >= 0; y--) {
+    if (board[y][x] === null) {
       return y;
     }
   }
@@ -86,8 +86,9 @@ function findSpotForCol(x) {
 function placeInTable(y, x) {
   // TODO: make a div and insert into correct table cell
   let piece = document.createElement("div");
-  piece.setAttribute("class", "piece");
-  piece.setAttribute("class", `player${currPlayer}`);
+  //piece.setAttribute("class", "piece");
+  piece.setAttribute("class", `piece player${currPlayer}`);
+  //console.log(`place in table is showing accurate coordinates ${y}-${x}`);
   document.getElementById(`${y}-${x}`).append(piece);
 }
 
@@ -95,6 +96,7 @@ function placeInTable(y, x) {
 
 function endGame(msg) {
   // TODO: pop up alert message
+  alert(msg);
 }
 
 /** handleClick: handle click of column top to play piece */
@@ -113,7 +115,7 @@ function handleClick(evt) {
   // TODO: add line to update in-memory board
   placeInTable(y, x);
   board[y][x] = currPlayer;
-  
+
 
 
   // check for win
@@ -126,13 +128,11 @@ function handleClick(evt) {
 
   //is there an easier way to do this rather than looping through each array?
 
-  for(let y=0;y<HEIGHT;y++){
-    if(!(board[y].includes(null))){
-      endGame();
+  for (let y = 0; y < HEIGHT; y++) {
+    if (!(board[y].includes(null))) {
+      endGame("YOU'RE BOTH SMART. ITS A TIE!");
     }
   }
-  
-
 
   // switch players
   // TODO: switch currPlayer 1 <-> 2
@@ -167,9 +167,9 @@ function checkForWin() {
       // [ [y, x], [y, x], [y, x], [y, x] ]
 
       let horiz = [[y, x], [y, x + 1], [y, x + 2], [y, x + 3]];
-      let vert;
-      let diagDL;
-      let diagDR;
+      let vert = [[y, x], [y + 1, x], [y + 2, x], [y + 3, x]];
+      let diagDL = [[y, x], [y + 1, x - 1], [y + 2, x - 2], [y + 3, x - 3]];
+      let diagDR = [[y, x], [y + 1, x + 1], [y + 2, x + 2], [y + 3, x + 3]];
 
       // find winner (only checking each win-possibility as needed)
       if (_win(horiz) || _win(vert) || _win(diagDR) || _win(diagDL)) {
