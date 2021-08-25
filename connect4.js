@@ -87,6 +87,7 @@ function placeInTable(y, x) {
   // TODO: make a div and insert into correct table cell
   let piece = document.createElement("div");
   piece.setAttribute("class", "piece");
+  piece.setAttribute("class", `player${currPlayer}`);
   document.getElementById(`${y}-${x}`).append(piece);
 }
 
@@ -111,6 +112,9 @@ function handleClick(evt) {
   // place piece in board and add to HTML table
   // TODO: add line to update in-memory board
   placeInTable(y, x);
+  board[y][x] = currPlayer;
+  
+
 
   // check for win
   if (checkForWin()) {
@@ -120,8 +124,20 @@ function handleClick(evt) {
   // check for tie
   // TODO: check if all cells in board are filled; if so call, call endGame
 
+  //is there an easier way to do this rather than looping through each array?
+
+  for(let y=0;y<HEIGHT;y++){
+    if(!(board[y].includes(null))){
+      endGame();
+    }
+  }
+  
+
+
   // switch players
   // TODO: switch currPlayer 1 <-> 2
+  currPlayer = (currPlayer === 1) ? 2 : 1;
+
 }
 
 /** checkForWin: check board cell-by-cell for "does a win start here?" */
