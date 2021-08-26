@@ -137,6 +137,7 @@ function handleClick(evt) {
   // switch players
   // TODO: switch currPlayer 1 <-> 2
   currPlayer = (currPlayer === 1) ? 2 : 1;
+  console.log("current plahyer is", currPlayer);
 
 }
 
@@ -152,8 +153,17 @@ function checkForWin() {
   function _win(cells) {
 
     // TODO: Check four cells to see if they're all legal & all color of current
-    // player
 
+    for (let i = 0; i < cells.length; i++) {
+      let y = cells[i][0];
+      let x = cells[i][1];
+      if ((y > 5 || y < 0) || (x > 6 || x < 0)) {
+        return false;
+      } else if (board[y][x] != currPlayer) {
+        return false;
+      }
+    }
+    return true;
   }
 
   // using HEIGHT and WIDTH, generate "check list" of coordinates
