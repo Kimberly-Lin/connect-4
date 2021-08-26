@@ -33,11 +33,11 @@ function makeBoard() {
 function makeHtmlBoard() {
   // get "htmlBoard" variable from the item in HTML w/ID of "board"
 
-  let htmlBoard = document.getElementById("board");
+  const htmlBoard = document.getElementById("board");
 
   // Create special row to accept player click input
 
-  let top = document.createElement("tr");
+  const top = document.createElement("tr");
   top.setAttribute("id", "column-top");
   top.addEventListener("click", handleClick);
 
@@ -57,10 +57,10 @@ function makeHtmlBoard() {
   // uses WIDTH to create table cells for each row
   for (let y = 0; y < HEIGHT; y++) {
     //Create a table row element and assign to a "row" variable
-    let row = document.createElement("tr");
+    const row = document.createElement("tr");
     for (let x = 0; x < WIDTH; x++) {
       //Create a table cell element and assign to a "cell" variable
-      let cell = document.createElement("td");
+      const cell = document.createElement("td");
       cell.setAttribute("id", `${y}-${x}`);
       //you'll use this later, so make sure you use y-x
       row.append(cell);
@@ -85,7 +85,7 @@ function findSpotForCol(x) {
 
 function placeInTable(y, x) {
   // TODO: make a div and insert into correct table cell
-  let piece = document.createElement("div");
+  const piece = document.createElement("div");
   //piece.setAttribute("class", "piece");
   piece.setAttribute("class", `piece player${currPlayer}`);
   //console.log(`place in table is showing accurate coordinates ${y}-${x}`);
@@ -126,19 +126,25 @@ function handleClick(evt) {
   // check for tie
   // TODO: check if all cells in board are filled; if so call, call endGame
 
-  //is there an easier way to do this rather than looping through each array?
-
-  for (let y = 0; y < HEIGHT; y++) {
-    if (!(board[y].includes(null))) {
-      endGame("YOU'RE BOTH SMART. ITS A TIE!");
-    }
+  if (checkForTie()) {
+    endGame("YOU'RE BOTH SMART. ITS A TIE!");
   }
 
   // switch players
-  // TODO: switch currPlayer 1 <-> 2
   currPlayer = (currPlayer === 1) ? 2 : 1;
-  console.log("current plahyer is", currPlayer);
+  //console.log("current player is", currPlayer);
+}
 
+/** Runs through the entire board to check if there are any empty spots.
+ * Return true if board is filled, false if not filled.*/
+
+function checkForTie() {
+  for (let y = 0; y < HEIGHT; y++) {
+    if ((board[y].includes(null))) {
+      return false;
+    }
+  }
+  return true;
 }
 
 /** checkForWin: check board cell-by-cell for "does a win start here?" */
